@@ -1,0 +1,22 @@
+{
+    "items": [
+      {
+        "type": "cafe",
+        "title": "Ням-Ням",
+        "timeWalk": 4,
+        "id": 1561219
+      },
+      {
+        "type": "cafe",
+        "title": "Русские традиции",
+        "timeWalk": 5,
+        "id": 1576243
+      },
+      {
+        "type": "grocery",
+        "title": "Минимаркет",
+        "timeWalk": 5,
+        "id": 8227900
+      }
+        ]
+  }
