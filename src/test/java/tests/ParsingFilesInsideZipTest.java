@@ -3,6 +3,7 @@ package tests;
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
 import com.opencsv.CSVReader;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -20,11 +21,10 @@ public class ParsingFilesInsideZipTest {
     private ClassLoader classLoader = getClass().getClassLoader();
 
     @Test
-    void verifyFilesInsideZipArchiveTest() throws Exception {
+    void verifyFileCsvTest() throws Exception {
         ZipFile zipFile = new ZipFile(new File(Objects.requireNonNull(classLoader
                 .getResource("zip_Test.zip")).toURI()));
 
-        //CSV
         ZipEntry csvEntry = zipFile.getEntry("CSV_Test.csv");
         try (InputStream stream = zipFile.getInputStream(csvEntry)) {
             CSVReader reader = new CSVReader(new InputStreamReader(stream));
@@ -38,19 +38,29 @@ public class ParsingFilesInsideZipTest {
                             new String[]{"natasha12", "8912", "Natasha", "Ivanova"}
                     );
         }
+    }
 
-        //XLS
+    @Test
+        void verifyFileXlsTest() throws Exception {
+        ZipFile zipFile = new ZipFile(new File(Objects.requireNonNull(classLoader
+                .getResource("zip_Test.zip")).toURI()));
+
         ZipEntry xlsEntry = zipFile.getEntry("XLSX_Test.xlsx");
         try (InputStream stream = zipFile.getInputStream(xlsEntry)) {
 
             XLS parsed = new XLS(stream);
-           assertThat(parsed.excel.getSheetAt(0).getRow(2).getCell(3).getStringCellValue())
-                   .isEqualTo("Женский");
+            assertThat(parsed.excel.getSheetAt(0).getRow(2).getCell(3).getStringCellValue())
+                    .isEqualTo("Женский");
             assertThat(parsed.excel.getSheetAt(0).getRow(3).getCell(2).getStringCellValue())
-                   .isEqualTo("Исакова");
+                    .isEqualTo("Исакова");
         }
+    }
 
-        //PDF
+    @Test
+            void verifyFilePdfTest() throws Exception {
+                ZipFile zipFile = new ZipFile(new File(Objects.requireNonNull(classLoader
+                        .getResource("zip_Test.zip")).toURI()));
+
         ZipEntry pdfEntry = zipFile.getEntry("PDF_Test.pdf");
         try (InputStream stream = zipFile.getInputStream(pdfEntry)) {
             PDF pdf = new PDF(stream);
